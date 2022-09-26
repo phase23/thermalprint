@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "1051293600048",
+    "firebase_url": "https://axcessdrivers-default-rtdb.firebaseio.com",
+    "project_id": "axcessdrivers",
+    "storage_bucket": "axcessdrivers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051293600048:android:42e93af71c155c06a260f5",
+        "android_client_info": {
+          "package_name": "ai.axcess.axcessfoods"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051293600048-qli9hap0e5ibb5l72qssjgvuoa3j5ios.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOdTY7v4cIv80GP2bRNCEtIjhtGcXFK-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051293600048-qli9hap0e5ibb5l72qssjgvuoa3j5ios.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051293600048:android:2f043fc091f4bb1da260f5",
+        "android_client_info": {
+          "package_name": "ai.axcess.drivers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051293600048-qli9hap0e5ibb5l72qssjgvuoa3j5ios.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOdTY7v4cIv80GP2bRNCEtIjhtGcXFK-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051293600048-qli9hap0e5ibb5l72qssjgvuoa3j5ios.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051293600048:android:c9fde07e51095cdca260f5",
+        "android_client_info": {
+          "package_name": "com.dantsu.thermalprinter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051293600048-qli9hap0e5ibb5l72qssjgvuoa3j5ios.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOdTY7v4cIv80GP2bRNCEtIjhtGcXFK-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051293600048-qli9hap0e5ibb5l72qssjgvuoa3j5ios.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
