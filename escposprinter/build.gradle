@@ -6,6 +6,7 @@ def libraryVersionName = "3.2.0"
 android {
     compileSdkVersion 31
 
+
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 31
@@ -22,6 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion '30.0.3'
 
 }
 
