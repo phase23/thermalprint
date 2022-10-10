@@ -1,5 +1,7 @@
 package com.dantsu.thermalprinter;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
@@ -25,6 +28,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
 
        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         LocalBroadcastManager.getInstance(this)
                 .registerReceiver(messageReceiver, new IntentFilter("intentKey"));
@@ -328,8 +333,18 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
              printout = intent.getStringExtra("key");
-            System.out.println("url out: " + printout );
+
+             System.out.println("url out: " + printout );
            // Toast.makeText(getApplicationContext(), "Over here:" + printout, Toast.LENGTH_LONG).show();
+
+            String[] allorders = printout.split(Pattern.quote("@"));
+            String checktype = allorders[0];
+            String[] typechecker = checktype.split("~");
+            String lastelememt = typechecker[typechecker.length-1].trim();
+
+            //Toast.makeText(getApplicationContext(), "lastE:" +  lastelememt, Toast.LENGTH_SHORT).show();
+
+
 
             printUsb();
 
@@ -457,53 +472,91 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
         AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 203, 48f, 32);
 
+        //Toast.makeText(getApplicationContext(), "we are now here:" + printout, Toast.LENGTH_LONG).show();
+
+
         String[] allorders = printout.split(Pattern.quote("@"));
-        String lner = allorders[0];
-        String[] linez = lner.split("~");
-        String ordernumber = linez[2];
-        String dedate = linez[3];
-        String detime = linez[4];
-        String totalprice = linez[7];
-        String cashier = linez[0];
-        String workstation = linez[11];
-        String gst = linez[12];
-        String subtt = linez[13];
+        String checktype = allorders[0];
+        String[] typechecker = checktype.split("~");
+        String lastelememt = typechecker[typechecker.length-1].trim();
+
+        if(lastelememt.equals("receipt")){
+
+            String lner = allorders[0];
+            String[] linez = lner.split("~");
+            String ordernumber = linez[2];
+            String dedate = linez[3];
+            String detime = linez[4];
+            String totalprice = linez[7];
+            String cashier = linez[0];
+            String workstation = linez[11];
+            String gst = linez[12];
+            String subtt = linez[13];
 
 
-        int itemcount = allorders.length;
-        String eachline;
-        String toppart = "[L]\n[C]<u><font size='big'>ORDER N°" + ordernumber + "</font></u>\n\n";
-        String datepart ="[C]<u type='double'>" + dedate + " " + detime + "</u>\n\n";
-       String whocash ="[L]<u type='double'>" + cashier + "</u\n";
-        String pritstation ="[L]<u type='double'>" + workstation + " </u>\n";
-        String linepart = "[C]================================\n\n";
-       String listall = "";
+            int itemcount = allorders.length;
+            String eachline;
+            String toppart = "[L]\n[C]<u><font size='big'>ORDER N°" + ordernumber + "</font></u>\n\n";
+            String datepart = "[C]<u type='double'>" + dedate + " " + detime + "</u>\n\n";
+            String whocash = "[L]<u type='double'>" + cashier + "</u\n";
+            String pritstation = "[L]<u type='double'>" + workstation + " </u>\n";
+            String linepart = "[C]================================\n\n";
+            String listall = "";
 
-        for (int i = 0; i < itemcount; i++) {
-            eachline = allorders[i];
-            String[] eachitem = eachline.split("~");
-            String itemsold = eachitem[5];
-            String itemprice = eachitem[6];
+            for (int i = 0; i < itemcount; i++) {
+                eachline = allorders[i];
+                String[] eachitem = eachline.split("~");
+                String itemsold = eachitem[5];
+                String itemprice = eachitem[6];
 
-            listall = listall + "[L]<b>" + itemsold + "</b>[R]" + itemprice + "\n\n";
+                listall = listall + "[L]<b>" + itemsold + "</b>[R]" + itemprice + "\n\n";
 
 
+            }
+
+            String linr = "===========";
+            String absline = "[L]<b> </b>[R]" + linr + "\n\n";
+
+            String printsubtt = "[L]<b>Subtotal </b>[R] <b>" + subtt + "</b>\n\n";
+            String printgst = "[L]<b>GST </b>[R]" + gst + "\n\n";
+            String totalpriceline = "\n[C]================================\n" +
+                    "[R]<font size='tall'>TOTAL PRICE :[R]" + totalprice + "</font>\n\n\n";
+
+
+            String allparts = toppart + datepart + whocash + pritstation + linepart + listall + printsubtt + printgst + totalpriceline;
+
+            return printer.addTextToPrint(allparts);
+
+        }else{
+
+            String blotter = allorders[0];
+            String[] bblotter = blotter.split("~");
+
+            String totalusd = bblotter[0];
+            String totalxcd = bblotter[1];
+            String totalcashusd = bblotter[2];
+            String usdblotter = bblotter[3];
+            String xcdblotter = bblotter[4];
+            String nicedate = bblotter[5];
+
+            String datepart = "[C]<u type='double'>" + nicedate +  "</u>\n\n";
+            String Tusd = "[L]<u type='double'>TOTAL USD: $" + totalcashusd + "</u\n";
+            //String linr = "===========" + '\n';
+            String htypeusd = "[L]<u type='double'>USD BREAKDOWN</u\n";
+            String usdbl = "[L]<u type='double'>" + Html.fromHtml(usdblotter) + "</u\n";
+            String usd = "[L]<u type='double'>USD: $" + totalusd + "</u\n";
+            //String linr = "===========" + '\n';
+            String htypexcd = "[L]<u type='double'>XCD BREAKDOWN</u\n";
+            String xcdbl = "[L]<u type='double'>" + Html.fromHtml(xcdblotter) + "</u\n";
+            String xcd = "[L]<u type='double'>XCD: $" + totalxcd + "</u\n";
+
+
+
+            String linr = "===========" + '\n';
+
+            String allparts = datepart + Tusd + linr + htypeusd + usdbl + usd +  linr + htypexcd +  xcdbl + xcd;
+            return printer.addTextToPrint(allparts);
         }
 
-        String linr = "===========";
-        String absline = "[L]<b> </b>[R]" + linr + "\n\n";
-
-        String printsubtt = "[L]<b>Subtotal </b>[R] <b>" + subtt + "</b>\n\n";
-        String printgst = "[L]<b>GST </b>[R]" + gst + "\n\n";
-        String totalpriceline = "\n[C]================================\n" +
-                                  "[R]<font size='tall'>TOTAL PRICE :[R]" + totalprice +"</font>\n\n\n";
-
-
-
-        String allparts = toppart + datepart + whocash + pritstation + linepart + listall + printsubtt + printgst + totalpriceline;
-
-        return printer.addTextToPrint(
-                allparts
-        );
     }
 }

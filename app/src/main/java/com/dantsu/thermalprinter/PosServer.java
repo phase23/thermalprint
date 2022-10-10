@@ -142,7 +142,7 @@ WebView webView;
             System.out.println("url out2: " + printout );
             // Toast.makeText(getApplicationContext(), "Over here:" + printout, Toast.LENGTH_LONG).show();
 
-            printUsb();
+            //printUsb();
 
 
         }
@@ -216,7 +216,16 @@ WebView webView;
         SimpleDateFormat format = new SimpleDateFormat("'on' yyyy-MM-dd 'at' HH:mm:ss");
         AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 203, 48f, 32);
 
+
+
+
         String[] allorders = printout.split(Pattern.quote("@"));
+
+        String lastelememt = allorders[allorders.length-1].trim();
+        Toast.makeText(getApplicationContext(), "Print:" +  lastelememt, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "argP: " + lastelememt);
+
+
         String lner = allorders[0];
         String[] linez = lner.split("~");
         String ordernumber = linez[2];

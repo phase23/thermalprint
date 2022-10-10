@@ -101,7 +101,7 @@ public class MyService extends Service {
                 Settings.Secure.ANDROID_ID);
 
 
-
+        Log.d(TAG, "Value is: " + mydevice);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://axcessdrivers-default-rtdb.firebaseio.com/");
         DatabaseReference restaurant = FirebaseDatabase.getInstance().getReference(mydevice);
 
@@ -113,13 +113,13 @@ public class MyService extends Service {
 
                 String alert = dataSnapshot.child("waitingstatus").getValue(String.class);
                 //boolean isSeen = ds.child("isSeen").getValue(Boolean.class);
-                //Log.d(TAG, "Value is: " + value);
+                Log.d(TAG, "Value is: " + alert);
                 //Toast.makeText(getApplicationContext(), "Value is:" + value + " Alert: " + alert, Toast.LENGTH_LONG).show();
                 //Toast.makeText(getApplicationContext(), "changed : " + value, Toast.LENGTH_LONG).show();
 
                 if(alert.equals("print")){
 
-                    Toast.makeText(getApplicationContext(), "Value is:"  + " Alert: " + alert, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Sending to print queue", Toast.LENGTH_SHORT).show();
 
                     String getresponse = checkprintqueue();
 
@@ -348,6 +348,12 @@ return  responseBody;
         AsyncEscPosPrinter printer = new AsyncEscPosPrinter(printerConnection, 203, 48f, 32);
 
         String[] allorders = printout.split(Pattern.quote("@"));
+
+        String lastelememt = allorders[allorders.length-1].trim();
+        Toast.makeText(getApplicationContext(), "Print:" +  lastelememt, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "argS: " + lastelememt);
+
+
         String lner = allorders[0];
         String[] linez = lner.split("~");
         String ordernumber = linez[2];

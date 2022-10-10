@@ -33,6 +33,7 @@
             android:name=".Nointernet"
             android:exported="false" />
         <activity
+            android:screenOrientation="landscape"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
